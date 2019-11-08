@@ -27,6 +27,10 @@ class Node extends Base
         return $condition;
     }
 
+    /**
+     * 获取左侧边栏数据对象
+     * @return type object
+     */
     public function leftAll()
     {
         $pid = $this->request->param('pid', 0);
