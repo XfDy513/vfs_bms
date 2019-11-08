@@ -16,10 +16,14 @@ return [
     'hostname'        => 'localhost',
     // 数据库名
 <<<<<<< HEAD
+<<<<<<< HEAD
     'database'        => 'vfs_louyu',
 =======
     'database'        => 'vfs_bms',
 >>>>>>> remotes/master/master
+=======
+    'database'        => 'vfs_bms',
+>>>>>>> remotes/origin/master
     // 用户名
     'username'        => 'root',
     // 密码
