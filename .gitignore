@@ -6,8 +6,7 @@
 .DS_Store
 /runtime
 /thinkphp
-<<<<<<< HEAD
-/nbproject/private/
-=======
 
->>>>>>> 4c418f6368087a4a7c3eeded973a92da5e916082
+
+
+vendor
