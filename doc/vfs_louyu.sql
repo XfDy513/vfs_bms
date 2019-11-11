@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 08/11/2019 16:07:57
+ Date: 11/11/2019 10:18:15
 */
 
 SET NAMES utf8mb4;
@@ -51,7 +51,7 @@ CREATE TABLE `vfs_admin`  (
   `login_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `login_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_admin
@@ -149,7 +149,7 @@ CREATE TABLE `vfs_article`  (
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `view_number` int(11) NOT NULL DEFAULT 0 COMMENT '阅读',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_article
@@ -522,7 +522,7 @@ CREATE TABLE `vfs_node`  (
   `orderby` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '越大越靠前',
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '1正常',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '后台权限节点表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '后台权限节点表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_node
@@ -1141,7 +1141,7 @@ CREATE TABLE `vfs_wechat_menu`  (
   `create_time` int(11) NULL DEFAULT NULL,
   `update_time` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '微信菜单' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '微信菜单' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_wechat_menu
