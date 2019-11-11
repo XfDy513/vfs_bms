@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : local
  Source Server Type    : MySQL
  Source Server Version : 80012
  Source Host           : localhost:3306
- Source Schema         : vfs_louyu
+ Source Schema         : vfs_bms
 
  Target Server Type    : MySQL
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 11/11/2019 10:18:15
+ Date: 11/11/2019 17:45:39
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,7 @@ CREATE TABLE `vfs_activity`  (
   `start_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '活动开始时间',
   `end_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '活动结束时间',
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '活动地址',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '活动发布时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '活动发布时间',
   `status` tinyint(1) NULL DEFAULT 0 COMMENT '活动状态(0为活动中，1为截止)',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -51,7 +51,7 @@ CREATE TABLE `vfs_admin`  (
   `login_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `login_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_admin
@@ -128,7 +128,7 @@ CREATE TABLE `vfs_area`  (
   `author` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '区域负责人',
   `author_phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '区域负责人电话',
   `pid` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级区域ID',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '区域表' ROW_FORMAT = Dynamic;
 
@@ -149,7 +149,7 @@ CREATE TABLE `vfs_article`  (
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `view_number` int(11) NOT NULL DEFAULT 0 COMMENT '阅读',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_article
@@ -245,6 +245,14 @@ CREATE TABLE `vfs_family`  (
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '后台家庭表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Records of vfs_family
+-- ----------------------------
+INSERT INTO `vfs_family` VALUES (1, 1, '1,2,3,4');
+INSERT INTO `vfs_family` VALUES (2, 5, '5');
+INSERT INTO `vfs_family` VALUES (3, 6, '6');
+INSERT INTO `vfs_family` VALUES (4, 7, '7');
+
+-- ----------------------------
 -- Table structure for vfs_feedback
 -- ----------------------------
 DROP TABLE IF EXISTS `vfs_feedback`;
@@ -273,9 +281,18 @@ DROP TABLE IF EXISTS `vfs_gro`;
 CREATE TABLE `vfs_gro`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '村组ID',
   `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '村组名称',
+  `lead_cadre` int(255) UNSIGNED NOT NULL COMMENT '村组负责人 uid',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `Unique_fam_id`(`name`) USING BTREE COMMENT '家庭ID唯一'
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '村组表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of vfs_gro
+-- ----------------------------
+INSERT INTO `vfs_gro` VALUES (1, '槐庙一组', 1);
+INSERT INTO `vfs_gro` VALUES (2, '槐庙二组', 5);
+INSERT INTO `vfs_gro` VALUES (3, '槐庙三组', 6);
+INSERT INTO `vfs_gro` VALUES (4, '槐庙四组', 7);
 
 -- ----------------------------
 -- Table structure for vfs_gro_fam
@@ -288,6 +305,14 @@ CREATE TABLE `vfs_gro_fam`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `Unique_fam_id`(`fam_id`) USING BTREE COMMENT '家庭唯一'
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '村组家庭关系表' ROW_FORMAT = Fixed;
+
+-- ----------------------------
+-- Records of vfs_gro_fam
+-- ----------------------------
+INSERT INTO `vfs_gro_fam` VALUES (1, 3, 1);
+INSERT INTO `vfs_gro_fam` VALUES (2, 2, 2);
+INSERT INTO `vfs_gro_fam` VALUES (3, 1, 3);
+INSERT INTO `vfs_gro_fam` VALUES (4, 4, 4);
 
 -- ----------------------------
 -- Table structure for vfs_house
@@ -386,7 +411,7 @@ CREATE TABLE `vfs_mansion`  (
   `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '建筑名称',
   `area_id` int(20) UNSIGNED NULL DEFAULT NULL COMMENT '大楼所属大区',
   `storey_nums` int(2) UNSIGNED NULL DEFAULT NULL COMMENT '楼层数',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '建筑表' ROW_FORMAT = Dynamic;
 
@@ -451,7 +476,7 @@ CREATE TABLE `vfs_merchants_info`  (
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商谈地址',
   `brand_synopsis` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '品牌简介',
   `brand_describe` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '品牌描述',
-  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '招商信息表' ROW_FORMAT = Dynamic;
 
@@ -472,7 +497,7 @@ CREATE TABLE `vfs_news`  (
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `view_number` int(11) NOT NULL DEFAULT 0 COMMENT '阅读',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '新闻表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '新闻表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_news
@@ -522,7 +547,7 @@ CREATE TABLE `vfs_node`  (
   `orderby` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '越大越靠前',
   `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '1正常',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '后台权限节点表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '后台权限节点表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_node
@@ -557,6 +582,7 @@ INSERT INTO `vfs_node` VALUES (29, 'left', 28, '内容列表', '', '', 'admin', 
 INSERT INTO `vfs_node` VALUES (30, 'top', 0, '服务领域', '', '', 'admin', 'service', 'index', '', 0, 1);
 INSERT INTO `vfs_node` VALUES (31, 'left', 30, '服务分类', '', '', 'admin', 'service_cate', 'index', '', 0, 1);
 INSERT INTO `vfs_node` VALUES (32, 'left', 30, '服务列表', '', '', 'admin', 'service', 'index', '', 0, 1);
+INSERT INTO `vfs_node` VALUES (33, 'left', 1, '用户添加', '', '', 'admin', 'user', 'index', '', 0, 1);
 
 -- ----------------------------
 -- Table structure for vfs_product
@@ -578,7 +604,7 @@ CREATE TABLE `vfs_product`  (
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `delete_time` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '产品表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '产品表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_product
@@ -633,7 +659,7 @@ CREATE TABLE `vfs_rent`  (
   `u_id` int(11) UNSIGNED NOT NULL COMMENT '用户ID',
   `need` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '求租需求',
   `status` tinyint(1) UNSIGNED NULL DEFAULT NULL COMMENT '求租状态(0未租，1为已租)',
-  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '发布时间',
+  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -647,7 +673,7 @@ CREATE TABLE `vfs_role`  (
   `create_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_role
@@ -668,7 +694,7 @@ CREATE TABLE `vfs_role_node`  (
   `create_time` int(11) UNSIGNED NULL DEFAULT 0,
   `update_time` int(11) UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 266 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限中间表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 267 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限中间表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_role_node
@@ -748,7 +774,7 @@ CREATE TABLE `vfs_service`  (
   `update_time` int(11) UNSIGNED NOT NULL DEFAULT 0,
   `view_number` int(11) NOT NULL DEFAULT 0 COMMENT '阅读',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '服务领域表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '服务领域表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_service
@@ -835,6 +861,7 @@ INSERT INTO `vfs_statistics_log` VALUES (10, '127.0.0.1', 2, 1571105080);
 INSERT INTO `vfs_statistics_log` VALUES (11, '127.0.0.1', 4, 1572935254);
 INSERT INTO `vfs_statistics_log` VALUES (12, '127.0.0.1', 99, 1573106644);
 INSERT INTO `vfs_statistics_log` VALUES (13, '127.0.0.1', 3, 1573176246);
+INSERT INTO `vfs_statistics_log` VALUES (14, '127.0.0.1', 1, 1573443463);
 
 -- ----------------------------
 -- Table structure for vfs_sys_article
@@ -1012,25 +1039,26 @@ INSERT INTO `vfs_upload` VALUES (91, '/uploads/default/20190928\\4906d147a6c6e4c
 -- ----------------------------
 DROP TABLE IF EXISTS `vfs_user`;
 CREATE TABLE `vfs_user`  (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '村民ID',
-  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '村民名称',
+  `id` int(11) UNSIGNED NOT NULL COMMENT '村民ID',
+  `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '村民名称',
   `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '村民电话',
-  `sex` enum('男','女') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '村民性别',
+  `sex` tinyint(1) UNSIGNED NOT NULL COMMENT '村民性别 0女 1男',
   `birthday` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '村民出生年月',
   `age` int(3) NULL DEFAULT NULL COMMENT '年龄',
-  `idcode` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '身份证号',
+  `idcode` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '身份证号',
   `edu_green` enum('无','小学','初中','高中','大专','本科','研究生','硕士','博士','博士后','院士') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学历',
-  `marriage` enum('未婚','已婚') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '未婚' COMMENT '婚姻状态',
-  `move_in_time` timestamp(0) NULL DEFAULT NULL COMMENT '迁入户口时间',
-  `move_out_time` timestamp(0) NULL DEFAULT NULL COMMENT '迁出户口时间',
-  `u_status` enum('0','1') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '用户状态(默认为0 普通用户,1 村民)',
-  `status` enum('正常','失踪','过世','迁出') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '正常' COMMENT '人口状态',
+  `marriage` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '婚姻状态 0\'未婚\',1\'已婚\'',
+  `move_in_time` bigint(20) NULL DEFAULT NULL COMMENT '迁入户口时间',
+  `move_out_time` bigint(20) NULL DEFAULT NULL COMMENT '迁出户口时间',
+  `u_status` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '用户状态(默认为0 普通用户,1 村民)',
+  `status` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '人口状态 1正常\',\'2失踪\',\'3过世\',4\'迁出\'',
   `gro_id` int(11) NULL DEFAULT NULL COMMENT '所属大队ID',
   `fam_id` int(11) NULL DEFAULT NULL COMMENT '所属家庭ID',
   `allocation_cate` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分配类型',
-  `allocation_start_time` timestamp(0) NULL DEFAULT NULL COMMENT '分配开始时间',
-  `allocation_end_time` timestamp(0) NULL DEFAULT NULL COMMENT '分配结束时间',
+  `allocation_start_time` bigint(20) NULL DEFAULT NULL COMMENT '分配开始时间',
+  `allocation_end_time` bigint(20) NULL DEFAULT NULL COMMENT '分配结束时间',
   `family_move` tinyint(255) UNSIGNED NULL DEFAULT 0 COMMENT '是否迁出家庭(0:否,1:是)',
+  `author` tinyint(1) UNSIGNED NOT NULL COMMENT '用户身份，0家庭成员，1家主',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `Unique_phone`(`phone`) USING BTREE COMMENT '电话唯一',
   UNIQUE INDEX `Unique_idcode`(`idcode`) USING BTREE COMMENT '身份证号唯一'
@@ -1039,7 +1067,13 @@ CREATE TABLE `vfs_user`  (
 -- ----------------------------
 -- Records of vfs_user
 -- ----------------------------
-INSERT INTO `vfs_user` VALUES (1, '张三', '4294967295', '男', '95-06', 25, '4101991995060603', '本科', '未婚', '2019-03-13 14:53:18', '2019-11-07 14:53:28', '0', '正常', NULL, NULL, NULL, NULL, NULL, 0);
+INSERT INTO `vfs_user` VALUES (1, '张翼德', '17335582575', 1, '95-06', 25, '410425199109060708', '本科', 1, NULL, NULL, 1, 1, 3, 1, NULL, NULL, NULL, 0, 1);
+INSERT INTO `vfs_user` VALUES (2, '常桦', '15633219171', 0, '97-03', 21, '410425199703211020', '本科', 1, 20170901, NULL, 1, 1, 3, 1, NULL, NULL, NULL, 0, 0);
+INSERT INTO `vfs_user` VALUES (3, '张苞', '18535211169', 1, '18-5', 2, '410425201805133015', NULL, 0, NULL, NULL, 1, 1, 3, 1, NULL, NULL, NULL, 0, 0);
+INSERT INTO `vfs_user` VALUES (4, '张莹莹', '13831182725', 0, '18-05', 2, '41042520180513301x', NULL, 0, NULL, NULL, 1, 1, 3, 1, NULL, NULL, NULL, 0, 0);
+INSERT INTO `vfs_user` VALUES (5, '关云长', '17231313823', 1, '93-2', 26, '410425199302151070', '本科', 1, NULL, NULL, 1, 1, 2, 2, NULL, NULL, NULL, 0, 1);
+INSERT INTO `vfs_user` VALUES (6, '刘玄德', '17111112111', 1, '91-5', 28, '410425199105312190', '本科', 1, NULL, NULL, 1, 1, 1, 3, NULL, NULL, NULL, 0, 1);
+INSERT INTO `vfs_user` VALUES (7, '曹孟德', '19358832113', 1, '85-3', 34, '410425198503101323', '本科', 1, NULL, NULL, 1, 1, 4, 4, NULL, NULL, NULL, 0, 1);
 
 -- ----------------------------
 -- Table structure for vfs_user_favorite
@@ -1068,7 +1102,7 @@ CREATE TABLE `vfs_user_oauth`  (
   `expiresin` int(10) UNSIGNED NULL DEFAULT NULL COMMENT '访问凭证超时时间',
   `status` enum('bind','unbind') CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'bind' COMMENT '状态',
   `addtime` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
-  `updatetime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `updatetime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `u_id` bigint(20) UNSIGNED NOT NULL COMMENT '用户ID',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `Unique_uid_uoplat_uooid`(`u_id`, `platform`, `openid`) USING BTREE,
@@ -1088,7 +1122,7 @@ CREATE TABLE `vfs_user_oauth_wechat`  (
   `country` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '国家',
   `headimgurl` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
   `unionid` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '微信全平台用户唯一标识',
-  `updatetime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `updatetime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `uo_id` bigint(20) UNSIGNED NOT NULL COMMENT '用户oauthID',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -1141,7 +1175,7 @@ CREATE TABLE `vfs_wechat_menu`  (
   `create_time` int(11) NULL DEFAULT NULL,
   `update_time` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '微信菜单' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '微信菜单' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of vfs_wechat_menu
@@ -1153,16 +1187,5 @@ INSERT INTO `vfs_wechat_menu` VALUES (4, 2, '1', 0, 1, 1569392212, 1569392212);
 INSERT INTO `vfs_wechat_menu` VALUES (9, 4, '3', 0, 1, 1569746511, 1569746511);
 INSERT INTO `vfs_wechat_menu` VALUES (10, 2, '3', 0, 1, 1569746525, 1569746525);
 INSERT INTO `vfs_wechat_menu` VALUES (11, 1, '3', 0, 1, 1569746531, 1569746531);
-
--- ----------------------------
--- Triggers structure for table vfs_user_oauth
--- ----------------------------
-DROP TRIGGER IF EXISTS `T_user_oauth_b_ins`;
-delimiter ;;
-CREATE TRIGGER `T_user_oauth_b_ins` BEFORE INSERT ON `vfs_user_oauth` FOR EACH ROW BEGIN
-	SET new.addtime=CURRENT_TIMESTAMP;
-	END
-;;
-delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
