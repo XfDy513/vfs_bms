@@ -17,6 +17,7 @@ return [
     // 数据库名
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     'database'        => 'vfs_louyu',
 =======
     'database'        => 'vfs_bms',
@@ -24,6 +25,9 @@ return [
 =======
     'database'        => 'vfs_bms',
 >>>>>>> remotes/origin/master
+=======
+    'database'        => 'vfs_bms',
+>>>>>>> 4c418f6368087a4a7c3eeded973a92da5e916082
     // 用户名
     'username'        => 'root',
     // 密码
